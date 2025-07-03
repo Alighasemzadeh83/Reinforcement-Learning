@@ -1,0 +1,283 @@
+\documentclass[12pt]{article}
+\usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=1.5cm, right=1.5cm]{geometry}
+\usepackage{amsmath, amsfonts, amssymb, mathtools}
+\usepackage{fancyhdr, setspace, parskip}
+\usepackage{graphicx, caption, subfig, array, multirow}
+\usepackage{hyperref, enumitem, cancel}
+\usepackage[T1]{fontenc}
+\usepackage{tgtermes}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tocloft}
+\usepackage{titlesec}
+\usepackage{lipsum}  
+\usepackage{booktabs}
+
+\definecolor{DarkBlue}{RGB}{10, 0, 80}
+
+% Hyperlink setup
+\hypersetup{
+    colorlinks=true,
+    linkcolor=DarkBlue,
+    filecolor=BrickRed,      
+    urlcolor=RoyalBlue,
+}
+
+
+% Header and footer customization
+\fancyhead{}
+\fancyhead[L]{
+{\fontfamily{lmss}{\color{DarkBlue}
+\textbf{\leftmark}
+}}
+}
+\fancyhead[R]{
+{\fontfamily{ppl}\selectfont {\color{DarkBlue}
+{Deep RL [Spring 2025]}
+}}
+}
+
+\fancyfoot{}
+\fancyfoot[C]{
+{\fontfamily{lmss}{\color{BrickRed}
+\textbf{\thepage}
+}}
+}
+
+\renewcommand{\sectionmark}[1]{ \markboth{\thesection\quad #1}{} }
+
+\renewcommand{\headrule}{{\color{BrickRed}\hrule width\headwidth height 0.5pt}}
+\renewcommand{\footrulewidth}{0pt}
+
+
+% Table of Contents customizations
+\renewcommand{\cftsecafterpnum}{\vskip6pt}
+\renewcommand{\cftsubsecafterpnum}{\vskip3pt}
+\renewcommand{\cftsubsubsecafterpnum}{\vskip3pt}
+\renewcommand{\cftsecfont}{\sffamily\large}
+\renewcommand{\cftsubsecfont}{\sffamily}
+\renewcommand{\cftsubsubsecfont}{\sffamily}
+% \renewcommand{\cftsecdotsep}{1}
+\renewcommand{\cftsubsecdotsep}{1}
+\renewcommand{\cftsubsubsecdotsep}{1}
+
+
+% Section title styles
+\titleformat*{\section}{\LARGE\bfseries\color{DarkBlue}}
+\titleformat*{\subsection}{\Large\bfseries\color{DarkBlue}}
+\titleformat*{\subsubsection}{\large\bfseries\color{DarkBlue}}
+
+\definecolor{light-gray}{gray}{0.95}
+\newcommand{\code}[1]{\colorbox{light-gray}{\texttt{#1}}}
+
+% Start of the document
+\pagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\pagenumbering{gobble}
+\thispagestyle{plain}
+
+\begin{center}
+
+\vspace*{-1.5cm}
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.7\linewidth]{figs/cover-std.png}
+\end{figure}
+
+{
+\fontfamily{ppl}
+
+{\color{DarkBlue} {\fontsize{30}{50} \textbf{
+Deep Reinforcement Learning
+}}}
+
+{\color{DarkBlue} {\Large
+Professor Mohammad Hossein Rohban
+}}
+}
+
+
+\vspace{20pt}
+
+{
+\fontfamily{lmss}
+
+
+{\color{RedOrange}
+{\Large
+Homework 10:
+}\\
+}
+{\color{BrickRed}
+\rule{12cm}{0.5pt}
+
+{\Huge
+Exploration in Deep Reinforcement Learning
+}
+\rule{12cm}{0.5pt}
+}
+
+\vspace{10pt}
+
+{\color{RoyalPurple} { \small By:} } \\
+\vspace{10pt}
+
+{\color{Blue} { \LARGE [Ali Ghasemzadeh] } } \\
+\vspace{5pt}
+{\color{RoyalBlue} { \Large [401106339] } }
+
+
+\vspace*{\fill}
+\begin{center}
+\begin{tabular}{ccc}
+    \includegraphics[width=0.14\linewidth]{figs/sharif-logo.png} & \includegraphics[width=0.14\linewidth]{figs/riml-logo.png} & \includegraphics[width=0.14\linewidth]{figs/dlr-logo.png} \\
+\end{tabular}
+\end{center}
+
+
+\vspace*{-.25cm}
+
+{\color{YellowOrange} {
+\rule{10cm}{0.5pt} \\
+\vspace{2pt}
+\large Spring 2025}
+}}
+\vspace*{-1cm}
+
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\newpage
+\pagenumbering{gobble}
+\thispagestyle{plain}
+{\fontfamily{lmss}\selectfont {\color{BrickRed} \textbf{\tableofcontents} }}
+
+{\fontfamily{lmss}\selectfont {\color{DarkBlue}
+
+\subsection*{Grading}
+
+The grading will be based on the following criteria, with a total of 290 points:
+
+\[
+\begin{array}{|l|l|}
+\hline
+\textbf{Task} & \textbf{Points} \\
+\hline
+\text{Task 1: Bootstrap DQN Variants} & 100 \\
+\text{Task 2: Random Network Distillation (RND)} & 100 \
+ \\
+\hline
+\text{Clarity and Quality of Code} & 5 \\
+\text{Clarity and Quality of Report} & 5 \\
+\hline
+\text{Bonus 1 } & 80 \\
+\hline
+\end{array}
+\]
+
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\pagenumbering{arabic}
+
+{\fontfamily{lmss}\selectfont {\color{DarkBlue}
+
+\section{Task 1: Bootstrap DQN Variants}
+\begin{itemize}[noitemsep]
+    \item The complete guidelines for implementing the Bootstrap DQN algorithm, including the RPF and BIV
+variants, are provided in the Jupyter notebook. You will find detailed instructions on how to set up the
+environment, implement the algorithms, and evaluate their performance. 
+    \item Make sure to read Guidelines
+section in the notebook carefully.
+    \end{itemize}
+
+\section{Task 2: Random Network Distillation (RND)}
+\begin{itemize}[noitemsep]
+    \item You will implement the missing core components of Random Network Distillation (RND) combined with
+a Proximal Policy Optimization (PPO) agent inside the MiniGrid environment.
+    \item \textbf{TODO:} You must complete the following parts:
+    \begin{table}[h]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{ll}
+    \toprule
+    \textbf{File} & \textbf{TODO Description} \\
+    \midrule
+    \texttt{Core/model.py} & Implement the architecture of \texttt{TargetModel} and \texttt{PredictorModel}. \\
+    \texttt{Core/model.py} & Implement \texttt{\_init\_weights()} method for proper initialization. \\
+    \texttt{Core/ppo\_rnd\_agent.py} & Implement \texttt{calculate\_int\_rewards()} to compute intrinsic rewards. \\
+    \texttt{Core/ppo\_rnd\_agent.py} & Implement \texttt{calculate\_rnd\_loss()} to compute predictor training loss. \\
+    \bottomrule
+    \end{tabular}
+    \caption{Summary of required TODO implementations}
+    \end{table}
+    
+    \item Questions:
+    \begin{enumerate}
+    \item What is the intuition behind Random Network Distillation (RND)? Why does a prediction error signal encourage better exploration? 
+    
+    \item Why is it beneficial to use both intrinsic and extrinsic returns in the PPO loss function?
+    
+    \item What happens when you increase the \texttt{predictor\_proportion} (i.e., the proportion of masked features used in the RND loss)? Does it help or hurt learning?
+    
+    \item Try training with \texttt{int\_adv\_coeff=0} (removing intrinsic motivation). How does the agent's behavior and reward change?
+    
+    \item Inspect the TensorBoard logs. During successful runs, how do intrinsic rewards evolve over time? Are they higher in early training?\\
+    \end{enumerate}
+
+    \begin{enumerate}
+  \item \textbf{Intuition behind Random Network Distillation (RND)}\\
+    Random Network Distillation introduces a fixed, randomly initialized “target” neural network \(f_{\text{target}}(s)\) and a “predictor” network \(f_{\text{pred}}(s)\). For each state \(s\), the predictor tries to match the target’s output. The prediction error : 
+    \[
+      \bigl\lVert f_{\text{target}}(s) - f_{\text{pred}}(s) \bigr\rVert^{2}
+    \]
+    is treated as an intrinsic reward. Intuitively, states that the agent has not seen often (or at all) yield larger prediction errors—because the predictor has not yet learned to approximate the random target on those inputs. This “surprise” encourages the agent to explore novel states in order to reduce the prediction error. As learning progresses, the predictor’s error on frequently visited states goes down, so the agent is driven toward truly unfamiliar states.\\
+
+  \item \textbf{Benefit of combining intrinsic and extrinsic returns in PPO}\\
+    In PPO (Proximal Policy Optimization), the policy gradient is weighted by an advantage estimate. When using both extrinsic returns (from the environment’s reward \(r^{\text{ext}}\)) and intrinsic returns (from RND, \(r^{\text{int}}\)), one typically forms a combined advantage:
+    \[
+      A_{t} \;=\; \hat{R}_{t}^{\text{ext}} - V_{\phi}(s_{t}) \;+\; \lambda_{\text{int}} \bigl(\hat{R}_{t}^{\text{int}} - V_{\phi}^{\text{int}}(s_{t}) \bigr),
+    \]
+    where \(\lambda_{\text{int}}\) is an intrinsic‐advantage coefficient. The extrinsic return encourages the agent to maximize task performance, while the intrinsic return encourages exploration of novel states. By blending both, PPO still tends toward high extrinsic reward but does not prematurely converge to suboptimal policies due to insufficient exploration. In short, extrinsic rewards focus on exploitation, and intrinsic rewards focus on exploration, and combining them yields a more balanced update.\\
+
+  \item \textbf{Effect of increasing \texttt{predictor\_proportion}}\\
+    The hyperparameter \texttt{predictor\_proportion} controls how many of the features (e.g., output dimensions of the random target) the predictor must match when computing the RND loss. Concretely, if \(\texttt{predictor\_proportion} = p\), the predictor is trained only on a random subset of \(p \times D\) dimensions out of \(D\).  
+    \begin{itemize}
+      \item If \(p\) is very small, the predictor sees only a few components of the random target, so the intrinsic signal becomes noisier (higher variance) because the agent is rewarded for visiting states that reduce error in only a small subset of dimensions. This can hurt learning by making intrinsic rewards unstable.
+      \item If \(p\) is very large (close to 1), the predictor must learn nearly the entire random target. The prediction errors then drop quickly even on moderately visited states, causing the intrinsic reward to vanish prematurely and reducing exploration.
+    \end{itemize}
+    In practice, an intermediate \(p\) (e.g., \(0.5\)) often strikes a balance: the predictor still has to model enough target output to give informative novelty signals, but not so much that it trivializes intrinsic rewards too early. Empirically, increasing \(p\) beyond a moderate value can hurt exploration (intrinsic reward collapses), while too small \(p\) can inject excessive noise.\\
+
+  \item \textbf{Training with \(\texttt{int\_adv\_coeff}=0\) (no intrinsic motivation)}\\
+    Setting \(\texttt{int\_adv\_coeff}=0\) effectively removes the intrinsic‐advantage term from the PPO objective. In that case, the agent trains purely on extrinsic rewards:
+    \[
+      A_{t} \;=\; \hat{R}_{t}^{\text{ext}} - V_{\phi}(s_{t}).
+    \]
+    \begin{itemize}
+      \item \textbf{Behavioral change:} Without intrinsic bonuses, the agent lacks any mechanism to seek out novel or “curious” states. It tends to stick to the first reward signals it discovers and often converges to a suboptimal policy if the extrinsic reward is sparse.
+      \item \textbf{Reward change:} Early in training, the return is typically lower because the agent may not stumble upon high‐reward states often. Exploration tends to be near‐random (e.g., \(\epsilon\)-greedy), so it may take many more episodes to find rewarding trajectories. As training continues, extrinsic reward eventually rises, but the learning curve usually has a slower initial growth compared to runs with intrinsic motivation.\\
+    \end{itemize}
+  \item \textbf{Intrinsic rewards over time (from TensorBoard logs)}\\
+    In successful RND+PPO runs, one generally observes that:
+    \begin{itemize}
+      \item \textbf{Intrinsic rewards are high at the beginning.} Because nearly every state is novel, the predictor network has large errors, so \(r_{t}^{\text{int}} = \lVert f_{\text{target}}(s_{t}) - f_{\text{pred}}(s_{t}) \rVert^{2}\) is large. This drives the agent to explore different parts of the state space.
+      \item \textbf{Intrinsic rewards decay over time.} As the agent visits more states, the predictor learns to approximate the target mapping for those states, and prediction error on previously visited states decreases. Consequently, \(r_{t}^{\text{int}}\) declines. However, spikes in intrinsic reward often occur when the agent discovers a genuinely novel region of the environment (e.g., a new room or area).
+      \item \textbf{Plateauing of intrinsic rewards.} After extensive exploration, intrinsic rewards may approach zero for most visited states, signaling that the predictor has “seen” almost everything the agent can reach. At that point, the intrinsic advantage is small, and the agent’s learning is driven almost entirely by extrinsic returns.
+    \end{itemize}
+    In summary, the TensorBoard curve for intrinsic return usually starts high, drops quickly during early exploration, and then flattens or shows intermittent bumps when new states are encountered.
+\end{enumerate}
+\end{itemize}
+
+
+}}
+
+\end{document}

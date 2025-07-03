@@ -1,0 +1,29 @@
+\subsection{Answers}
+\subsubsection{Effect of Increasing the Number of Planning Steps}
+increasing the number of planning steps n improves efficiently of learning because the Q-values are updated by agent's direct experience and sinmulated experience, but increasing it too much lead to diminishing returns or may cause overfitting in inaccurate models.
+
+\subsubsection{Training on the Slippery Version Without Changing the Deterministic Algorithm}
+The standard Dyna-Q assumes a deterministic model this means it simulates transitions exactly as observed and in the slippery version, state transitions are stochastic, so with a deterministic model we will have inaccurate simulation.
+
+\subsubsection{Does Planning Help in Frozen Lake}
+It works if we reach the goal for this environment because it is sparse reward but the exploration space is big and for the 8x8 table it doesn't converge wit planning and it needs a large number of exploration, but for 4x4 it converges and solve the game.
+
+\subsubsection{Effect of Planning Steps on $\text{N}_1$ and $\text{N}_2$}
+$\text{N}_1$ is the episodes to first reach the goal, with more planning steps, $\text{N}_1$ decrease because the agent updates more states per real-world transition, and it spreads useful information faster.\\
+$\text{N}_2$ is the episodes between first and second success and if planning is effective then $\text{N}_2$ also decreases.
+
+\textbf{1. Adding a Baseline to the Q-values}\\
+This can reduces variance and speed up convergence in learning but after we reach the goal at least one time, but it can be useful.
+
+\textbf{2. Changing $\epsilon$ Over Time or Using a Different Policy}\\
+The $\epsilon$-greedy over time allows the agent to explore initially and gradually shift towards exploitation and make the learning process better and I use Boltzman exploration in my code to converge better.
+ 
+\textbf{3. Changing the Number of Planning Steps n Over Time}\\
+Using a higher n helps to spread reward faster across states, and reducing it when the agent has reasonable model avoids overfitting so we can use large n at first and gradually decrease it for better stablizing.
+
+\textbf{4. Modifying the Reward Function}\\
+Since the frozen lake is sparse reward environment, small change in the reward function can improve learning: shaping rewards that give small reward is a method, also we can penalizing falls and give negative reward for stopping into a hole, after all I give negative reward for holes and a small negative reward for each action to prevent the agent from staying in one place.
+ 
+\subsubsection{Prioritized Sweeping}
+standard Dyna-Q selects random past experience for planning and it is not efficient so we prioritize important state-action pairs with leage Q-value updates.
+This speeds up learning by focusing on states where agent's knowledge is changing rapidly, in the frozen lake it avoids the wasting updates or unimportant transitions.

@@ -1,0 +1,37 @@
+\subsection{Answers}
+\subsubsection{MCTS Fundamentals}
+\textbf{Selection :} In this phase you traverse the tree by picking child nodes accorfing to the rule that weighs both how promising a move looks and how little you’ve tried it, this means exploration and exploitation. Here the UCB fomula help to decide which branch to explore next.\\
+\textbf{Expansion :} when reaching a node that hasn't been explored much, you expand the tree by adding one or more new nodes.\\
+\textbf{Simulation :} From the newly added node we perform a rollout which is a simulation where we play the game randomly or with a simple policy until the end. This give us an approximation idea of the outcome if we follow that branch of moves, and because the perfect evaluation is often too expensive these rollouts proved a quick estimate of how good that state might be.\\
+\textbf{Backpropagation :} At the end we have result from the simulation and update nodes along the path we we took. each node's statisitics is the many time it was visited and cumulative reward are updated. In this way future decisions are informed by these outcomes and gradually refine the estimated values for each move.\\
+\textbf{Balancing Exploration and Exploitation with UCB : }
+The UCB formula is :
+\[
+\text{Value} = Q(s, a) + c \times \sqrt{\frac{\text{ln}(N)}{n}} 
+\]
+Q(s,a) is the average reward and c is a constant to determine how much to explore and the second term boosts moves that haven’t been tried much.
+
+\subsubsection{Tree Policy and Rollouts}
+\textbf{Multiple Simulations per Node :} Running several simulations from each node instead of running just one time makes the decision better and reduce the misleading result due to randomness and gives us a more reliable estimate of how good a position really is.\\
+\textbf{Role of Random Rollouts :} instead of calculating the exact value of every state, rollouts help approxmate that value. They are especially useful in environments where calculating a perfect evalutation is either too complex or simply unavailable.
+
+\subsubsection{Integration with Neural Networks}
+\textbf{In Neural MCTS :} \\
+\textbf{Policy Networks :} provide a prior probabilities for each possible move. during the expansion phase, instead of randomly picking a move to to expand, we use these priors to focus on moves that the network believes are good. \\
+\textbf{Value Networks :} instead of relying just on random rollouts to evaluate a position, the value network gives an estimate of the state's quality directly. This speeds up the evaluation since not needing to simulate all the way every time.\\
+\textbf{Role of Prior Probabilites :} When you expand the tree, the policy network's output tells us which moves are more likely better using the biased selection towards moves that have higher prior probabilites.
+
+\subsubsection{Backpropagation and Node Statistics}
+\textbf{Updating Node Statistics :} During the backprop each node's visit count is increased and the outcome of the simulation is added to its cumulative score, during the time we average these outcomes ti get a reliable estimate of node's value.\\
+\textbf{Why Aggregate is important :} When several simulation pass through the same node, we want to ensure the statistics that accurately represent the overall performace of the state. Aggregating results helps smooth the noise from any individual simulation, and make our estimation more robust.
+
+\subsubsection{Hyperparameters and Practical Considerations}
+\textbf{Exploration Constant c :} This constant controls how mcuh you prioritize exploring the nodes that are less visited. A higher constant means you want to explore more which can be useful when you are still unsure about the best moves, but it is a trade-off and choosing it much big may cause waisting time on moves that unlikely to be good.\\
+\textbf{Temperature Parameter :} the temperature parameter affects how deterministic our final move selection is, if it is high the choice is more random and at first it is good but after a part of time when our model learns it is better for it to be small.
+
+\subsubsection{Comparisons to Other Methods}
+Classical methods like minimax or alpha-beta pruning that we became familiar with in AI course at first require evaluating the entire game tree of a big part of it which is computationly heavy both for time and both for memory especially for complex games and MCTS builds the tree gradually and focuses on good moves, it can deal with huge state space.\\
+\textbf{Unique Advantages of MCTS :} \\
+Handling Leage State Space : because it builds the tree gradually and focuses on promising moves, so it can deal with enormous state spaces without needing a perfect heuristic.\\
+No Need for an Accurate Heuristic : when you don't have a reliable evaluation function, MCTS can still work well by sing random rollouts or learned estimate of values from your neural network.\\
+Flexibility : the algorithm adapts as more simulations are run and improves the estimates continuously and don't need to evaluate the whole space again.

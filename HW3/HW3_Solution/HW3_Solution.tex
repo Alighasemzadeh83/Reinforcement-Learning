@@ -1,0 +1,372 @@
+\documentclass[12pt]{article}
+\usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=1.5cm, right=1.5cm]{geometry}
+\usepackage{amsmath, amsfonts, amssymb, mathtools}
+\usepackage{fancyhdr, setspace, parskip}
+\usepackage{graphicx, caption, subfig, array, multirow}
+\usepackage{hyperref, enumitem, cancel}
+\usepackage[T1]{fontenc}
+\usepackage{tgtermes}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tocloft}
+\usepackage{titlesec}
+\usepackage{lipsum}  
+
+\definecolor{DarkBlue}{RGB}{10, 0, 80}
+
+% Hyperlink setup
+\hypersetup{
+	colorlinks=true,
+	linkcolor=DarkBlue,
+	filecolor=BrickRed,      
+	urlcolor=RoyalBlue,
+}
+
+
+% Header and footer customization
+\fancyhead{}
+\fancyhead[L]{
+	{\fontfamily{lmss}{\color{DarkBlue}
+			\textbf{\leftmark}
+	}}
+}
+\fancyhead[R]{
+	{\fontfamily{ppl}\selectfont {\color{DarkBlue}
+			{Deep RL [Spring 2025]}
+	}}
+}
+
+\fancyfoot{}
+\fancyfoot[C]{
+	{\fontfamily{lmss}{\color{BrickRed}
+			\textbf{\thepage}
+	}}
+}
+
+\renewcommand{\sectionmark}[1]{ \markboth{\thesection\quad #1}{} }
+
+\renewcommand{\headrule}{{\color{BrickRed}\hrule width\headwidth height 0.5pt}}
+\renewcommand{\footrulewidth}{0pt}
+
+
+% Table of Contents customizations
+\renewcommand{\cftsecafterpnum}{\vskip6pt}
+\renewcommand{\cftsubsecafterpnum}{\vskip3pt}
+\renewcommand{\cftsubsubsecafterpnum}{\vskip3pt}
+\renewcommand{\cftsecfont}{\sffamily\large}
+\renewcommand{\cftsubsecfont}{\sffamily}
+\renewcommand{\cftsubsubsecfont}{\sffamily}
+% \renewcommand{\cftsecdotsep}{1}
+\renewcommand{\cftsubsecdotsep}{1}
+\renewcommand{\cftsubsubsecdotsep}{1}
+
+
+% Section title styles
+\titleformat*{\section}{\LARGE\bfseries\color{DarkBlue}}
+\titleformat*{\subsection}{\Large\bfseries\color{DarkBlue}}
+\titleformat*{\subsubsection}{\large\bfseries\color{DarkBlue}}
+
+\definecolor{light-gray}{gray}{0.95}
+\newcommand{\code}[1]{\colorbox{light-gray}{\texttt{#1}}}
+
+% Start of the document
+\pagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+	
+	\pagenumbering{gobble}
+	\thispagestyle{plain}
+	
+	\begin{center}
+		
+		\vspace*{-1.5cm}
+		\begin{figure}[!h]
+			\centering
+			\includegraphics[width=0.7\linewidth]{figs/cover-std.png}
+		\end{figure}
+		
+		{
+			\fontfamily{ppl}
+			
+			{\color{DarkBlue} {\fontsize{30}{50} \textbf{
+						Deep Reinforcement Learning
+			}}}
+			
+			{\color{DarkBlue} {\Large
+					Professor Mohammad Hossein Rohban
+			}}
+		}
+		
+		
+		\vspace{20pt}
+		
+		{
+			\fontfamily{lmss}
+			
+			
+			{\color{RedOrange}
+				{\Large
+					Homework 3:
+				}\\
+			}
+			{\color{BrickRed}
+				\rule{12cm}{0.5pt}
+				
+				{\Huge
+					Policy-Based Methods
+				}
+				\rule{12cm}{0.5pt}
+			}
+			
+			\vspace{10pt}
+			
+			{\color{RoyalPurple} { \small By:} } \\
+			\vspace{10pt}
+			
+			{\color{Blue} { \LARGE Ali Ghasemzadeh } } \\
+			\vspace{5pt}
+			{\color{RoyalBlue} { \Large 401106339 } }
+			
+			
+			\vspace*{\fill}
+			\begin{center}
+				\begin{tabular}{ccc}
+					\includegraphics[width=0.14\linewidth]{figs/sharif-logo.png} & \includegraphics[width=0.14\linewidth]{figs/riml-logo.png} & \includegraphics[width=0.14\linewidth]{figs/dlr-logo.png} \\
+				\end{tabular}
+			\end{center}
+			
+			\vspace*{-.25cm}
+			
+			{\color{YellowOrange} {
+					\rule{10cm}{0.5pt} \\
+					\vspace{2pt}
+					\large Spring 2025}
+		}}
+		\vspace*{-1cm}
+		
+	\end{center}
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	
+	\newpage
+	\pagenumbering{gobble}
+	\thispagestyle{plain}
+	{\fontfamily{lmss}\selectfont {\color{BrickRed} \textbf{\tableofcontents} }}
+	
+	{\fontfamily{lmss}\selectfont {\color{DarkBlue}
+			
+			\newpage
+			
+			\subsection*{Grading}
+			
+			The grading will be based on the following criteria, with a total of 100 points:
+			
+			\[
+			\begin{array}{|l|l|}
+				\hline
+				\textbf{Task} & \textbf{Points} \\
+				\hline
+				\text{Task 1: Policy Search: REINFORCE vs. GA} & 20 \\
+				\text{Task 2: REINFORCE: Baseline vs. No Baseline} & 25 \\
+				\text{Task 3: REINFORCE in a continuous action space} & 20 \\
+				\text{Task 4:Policy Gradient Drawbacks} & 25 \\
+				\hline
+				\text{Clarity and Quality of Code} & 5 \\
+				\text{Clarity and Quality of Report} & 5 \\
+				\hline
+				\text{Bonus 1: Writing your report in Latex } & 10 \\
+				\hline
+			\end{array}
+			\]
+			
+		}
+		
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		
+		\newpage
+		\pagenumbering{arabic}
+		
+		{\fontfamily{lmss}\selectfont {\color{DarkBlue}
+				
+				\section{Task 1: Policy Search: REINFORCE vs. GA [20]}
+				
+				\subsection{Question 1:}
+				How do these two methods differ in terms of their effectiveness for solving reinforcement learning tasks? \\
+				REINFORCE is a policy gradient method that directly adjusts a neural network's parameters by following the gradient of expected rewards. it works well when your policy is differentiable and can handle continuous actions.\\
+				GENETIC treat each policy as a “chromosome” and evolve a population over generations. They don’t need gradient information and can handle weird, non-differentiable setups or highly discrete spaces.\\
+				
+				\subsection{Question 2:}
+				Discuss the key differences in their \textbf{performance}, \textbf{convergence rates}, and \textbf{stability}. \\
+				as I run the codes i see that reinforce takes less time and converge better and genetic algorithm takes more time and it should contains a big number of populations to converge good and this cause a long time to train. but Reinforce can be unstable or got stuck if learning rates or hyperparameters are off.
+				\subsection{Question 3:}
+				Additionally, explore how each method handles exploration and exploitation, and suggest situations where one might be preferred over the other. \\
+				REINFORCE uses a stochastic policy for exploration but might reduce exploration too early without extra methods (like entropy bonuses).\\
+				GAs naturally explore through mutation and crossover but risk losing diversity if selection is too strong.
+				
+				\newpage
+				
+				\section{Task 2: REINFORCE: Baseline vs. No Baseline [25]}
+				
+				\subsection{Question 1:}
+				How are the observation and action spaces defined in the CartPole environment?\\
+				observation space is s: which is a vector of horizontal position of the cart, horizontal velocity of the cart, angle of the pole relative to the vertical, the angular velocity of the pole.
+				horizontal position $\in$ [-4.8,4.8] and angle of the pole relative to the vertical $\in$ [-24, 24] degree.\\
+				Action space consists of two actions and so it is set(0, 1)\\
+				0 -> left move \\
+				1 -> right move \\
+				\vspace*{0.3cm}
+				
+				\subsection{Question 2:}
+				
+				What is the role of the discount factor $(\gamma)$ in reinforcement learning, and what happens when $\gamma$=0 or $\gamma$=1?\\
+				$\gamma$ determines how much the future rewards matter and if $\gamma=0$ then only the immediate rewards matter and if the $\gamma=1$ then all the future rewards considered equally so the high amount of $\gamma$ is used for log-term strategies.
+				\vspace*{0.3cm}
+				
+				\subsection{Question 3:}
+				
+				Why is a baseline introduced in the REINFORCE algorithm, and how does it contribute to training stability?\\
+				A baseline is essentially a reference level of expected reward used to subtract from the return before computing policy gradients.\\
+				This subtraction reduces the variance of the gradient estimates. In other words, we’re more accurately judging how much better or worse an action’s outcome was compared to an “average” scenario.\\
+				By lowering variance, training becomes more stable and typically converges faster. The policy updates become more consistent, rather than swinging wildly with each sampled trajectory.
+				\vspace*{0.3cm}
+				
+				\subsection{Question 4:}
+				
+				What are the primary challenges associated with policy gradient methods like REINFORCE?\\
+				High Variance: Estimating gradients from random trajectories can be noisy, making learning unstable.\\
+				Sample Inefficiency: It often takes many episodes to gather enough data to produce stable gradient estimates.\\
+				Sensitivity to Hyperparameters: Learning rate, batch size, and discount factor can drastically affect results.\\
+				Local Optima & Exploration: Pure policy gradients can get stuck if the policy doesn’t explore sufficiently.
+				\vspace*{0.3cm}
+				
+				\subsection{Question 5:}
+				
+				Based on the results, how does REINFORCE with a baseline compare to REINFORCE without a baseline in terms of performance?\\
+				With a Baseline: Usually shows faster learning and more stable performance. The updates aren’t as noisy, so the agent can home in on a good policy more reliably.\\
+				Without a Baseline: Tends to have larger swings in performance and can take longer to converge because it’s more affected by random fluctuations in the returns.
+				\vspace*{0.3cm}
+				
+				\subsection{Question 6:}
+				
+				Explain how variance affects policy gradient methods, particularly in the context of estimating gradients from sampled trajectories.\\
+				Policy gradient methods like REINFORCE rely on sampled trajectories of states, actions, and rewards. Each trajectory can produce a very different return, leading to high variance in the gradient estimate.\\
+				High variance means unstable updates—the policy might change drastically from one batch of data to the next.\\
+				Reducing variance (for example, by subtracting a baseline or using variance-reduction tricks) makes the learning updates more consistent and helps the policy converge faster and more reliably.
+				
+				\newpage
+				
+				\section{Task 3: REINFORCE in a continuous action space [20]}
+				
+				\subsection{Question 1:}
+				
+				How are the observation and action spaces defined in the MountainCarContinuous environment?\\
+				Observation Space: A continuous 2D vector:\\
+				Car Position (where the car is on the track, typically between −1.2, 0.6)\\
+				Car Velocity (how fast the car is moving, typically between −0.07 and 0.07) \\
+				action spaec is in range [-1, 1]
+				\vspace*{0.3cm}
+				
+				\subsection{Question 2:}
+				
+				How could an agent reach the goal in the MountainCarContinuous environment while using the least amount of energy? Explain a scenario describing the agent's behavior during an episode with most optimal policy.\\
+				In MountainCarContinuous, the car starts at the bottom of a valley and must drive up a hill on the right to reach the goal. The trick is that the engine isn’t powerful enough to drive straight up the slope from a standstill, so the agent must build momentum:\\
+				Initial “Swing”: The agent might accelerate left (negative force) to roll the car backward, building up potential energy.\\
+				Momentum Build-Up: Then it switches to right (positive force) at the correct time, using the momentum gained from swinging backward to help push the car up the right hill.\\
+				Minimal Energy Usage:
+				The agent applies just enough force to crest the hill—avoiding constant throttle to prevent energy waste.\\
+				A well-timed “back-and-forth” motion is more energy-efficient than just brute-forcing the engine.\\
+				With an optimal policy, the car typically makes one or two swings to gain momentum, then accelerates up the hill to the goal without wasting energy on unnecessary revving.
+				\vspace*{0.3cm}
+				
+				\subsection{Question 3:}
+				What strategies can be employed to reduce catastrophic forgetting in continuous action space environments like MountainCarContinuous?\\
+				\textbf{Experience Replay:}
+				Store past transitions (s,a,r,s) in a replay buffer\\
+				Sample mini-batches randomly to break correlation between consecutive updates and revisit older experiences.\\
+				\textbf{Target Networks:}
+				Keep a separate set of network parameters (the “target”) updated more slowly than the main network.\\
+				Stabilizes learning because the target doesn’t change too rapidly, reducing the chance of forgetting previously learned behaviors.\\
+				
+				(Hint: experience replay or target networks)
+				\vspace*{0.3cm}
+				
+				\newpage
+				
+				\section{Task 4: Policy Gradient Drawbacks [25]}
+				
+				\subsection{Question 1:}
+				\textbf{Which algorithm performs better in the Frozen Lake environment? Why?}\\ 
+				\newline
+				Compare the performance of Deep Q-Network (DQN) and Policy Gradient (REINFORCE) in terms of training stability, convergence speed, and overall success rate. Based on your observations, which algorithm achieves better results in this environment?\\
+				DQN tends to perform better on Frozen Lake (especially when is_slippery=False), because it learns a direct action-value function in a relatively small, deterministic environment.\\
+				REINFORCE can still solve the task, but it might be less stable and require more careful tuning. 
+				as I used optuna for both of them and I get good results for the DQN but I can't get a good result for REINFORCE.\\
+				
+				\textbf{Training Stability and Convergence}:
+				DQN is usually more stable in small, discrete environments. It quickly converges to the optimal policy by learning Q(s,a) values.\\
+				REINFORCE can have higher variance in its gradient updates and might take longer to converge without additional tricks (like baselines or careful hyperparameter settings).\\
+				\textbf{Success Rate}:
+				In a deterministic setting (no slipperiness), DQN often finds the optimal path faster and more consistently.\\
+				REINFORCE can succeed but may fluctuate or take longer to reach high success rates.(but here it doesn't find)
+				
+				\subsection{Question 2:}
+				\textbf{ What challenges does the Frozen Lake environment introduce for reinforcement learning?}
+				\newline
+				Explain the specific difficulties that arise in this environment. How do these challenges affect the learning process for both DQN and Policy Gradient methods?\\
+				\textbf{Sparse Rewards:}
+				The agent only gets a reward upon reaching the goal. This means many episodes end with no reward, making it hard to figure out which actions were correct.\\
+				\textbf{State Space vs. Action Space:}
+				Though the grid is small, exploration can still be tricky. Without proper exploration, the agent may never find the correct route to the goal.\\
+				in summary :\\
+				DQN: Tends to handle discrete, small state spaces well, but can still struggle if exploration is insufficient.\\
+				REINFORCE: The high variance of policy gradient methods makes sparse rewards more challenging. If the agent rarely sees the goal reward, gradient updates can be noisy and slow.
+				
+				\subsection{Question 3:}
+				\textbf{For environments with unlimited interactions and low-cost sampling, which algorithm is more suitable?}
+				\newline
+				In scenarios where the agent can sample an unlimited number of interactions without computational constraints, which approach—DQN or Policy Gradient—is more advantageous? Consider factors such as sample efficiency, function approximation, and stability of learning.\\
+				\textbf{Unlimited Interactions and Low-Cost Sampling:}\\
+				Policy Gradient methods (like REINFORCE) can shine when you can gather huge amounts of experience. The more trajectories you sample, the more accurate your gradient estimates become.\\
+				DQN is generally more sample-efficient in smaller state-action spaces, but it can also benefit from lots of data.\\
+				DQN is used when :\\
+				Often more stable in discrete action spaces.\\
+				May converge faster when the state-action space is not too large.\\
+				Policy Gradient (REINFORCE):\\
+				With unlimited data, you can reduce gradient variance significantly.\\
+				Particularly advantageous in continuous or large action spaces, or where function approximation can be more direct via policies.\\
+				If interactions are truly unlimited and sampling is cheap, policy gradient methods can eventually do very well, because the large amount of data helps average out noisy gradients.\\
+				However, in a small, discrete environment like Frozen Lake, DQN often remains simpler and more stable—even if you can gather a lot of experience.
+		}}
+		
+		
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		
+		\newpage
+		
+		{\fontfamily{lmss}\selectfont {\color{DarkBlue}
+				
+				\begin{thebibliography}{9}
+					
+					\bibitem{CoverImage}
+					Cover image designed by freepik. Available: \href{https://www.freepik.com/free-vector/cute-artificial-intelligence-robot-isometric-icon_16717130.htm}{https://www.freepik.com/free-vector/cute-artificial-intelligence-robot-isometric-icon\_16717130.htm}
+					
+					\bibitem{PolicySearch}
+					Policy Search. Available: 
+					\url{https://amfarahmand.github.io/IntroRL/lectures/lec06.pdf}
+					
+					\bibitem{CartPole}
+					CartPole environment from OpenAI Gym. Available: \url{https://www.gymlibrary.dev/environments/classic_control/cart_pole/}
+					
+					\bibitem{MountainCar}
+					Mountain Car Continuous environment from OpenAI Gym. Available: \url{https://www.gymlibrary.dev/environments/classic_control/cart_pole/}
+					
+					\bibitem{FrozenLake}
+					FrozenLake environment from OpenAI Gym. Available: \url{https://www.gymlibrary.dev/environments/toy_text/frozen_lake/}
+					
+				\end{thebibliography}
+				
+				%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+				
+			\end{document}

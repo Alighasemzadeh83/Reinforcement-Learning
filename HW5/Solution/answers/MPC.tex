@@ -1,0 +1,17 @@
+\subsection{Answers}
+\subsubsection{Effect of the Number of LQR Iterations on MPC}
+When I increase the number of LQR iterations it generally leads to better local approximation of the optimal control law. more iterations mean that the MPC can refine the estimate of how the system will evolve under control, which usually results in smoother and more accurate actions. But after a point additional iterations not improve the returns and increase the computation time.
+
+\subsubsection{Using MPC Without Direct Access to the Model Dynamics}
+MPC fundamentally relies on a model to predict future states and optimize the actions. If we don't have access to the true dynamics, we can't run a perfect MPC. However we could still use MPC if we can construct a surrogate model and use techniques ro learn dynamics using data. So also the performace might decrease we can learn a model that can still enable us to use an MPC framework.
+
+\subsubsection{Role of TIMESTEPS and N-BATCH}
+\textbf{TIMESTEPS : } It is the prediction horizon and the more it is the MPC can anticipate future behavior. a short horizon may miss longer-term effects, while an overly long horizon increases computational load without a good benefit. \\
+\textbf{N-BATCH :} It relates to how many trajectories pr samples we process in parallel during optimization. It doesn't in general change the quality of the control nut it can improve the computational efficiency and robustness of the optimization process, especially when using parallel computations.\\
+In my ovservation TIMESTEPS has more effect than N-BATCH.
+
+\subsubsection{Initial State Set to the Downward Position}
+Starting of the pendulum is in the downward position and it is a classical challenge. The downward position is a challenge because we want ti swing it up and stabilize it in the upward position, and this cause it to be a nontrivial task.
+
+\subsubsection{Changes in Actions and Rewards Over Time}
+As the MPC iterates over time, we observe that the control actions become more refined and less aggresive. The controller might use larger or more erratic actions as it figures out the system's behavior. with time, as it gathers more feedback and optimizes the predictions, the actions settle into a smoother pattern that reliably brings the pendulum closer to the desired state (rewards are measure of how far the system is from its target) improve as the system stabilizes means that w esee higher rewards in later iterations and this improvement reflects the controller's convergence towards a more optimal control strategy.
