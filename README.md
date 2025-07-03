@@ -5,6 +5,12 @@ It covers foundational concepts, advanced algorithms, theoretical guarantees, an
 
 ---
 
+## 🌐 Course Website
+
+- [Deep RL Course](https://deeprlcourse.github.io/)
+
+---
+
 ## 📖 Course Topics
 
 ### 🚀 Introduction to RL
