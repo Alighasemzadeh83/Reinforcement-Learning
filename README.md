@@ -113,9 +113,34 @@ It covers foundational concepts, advanced algorithms, theoretical guarantees, an
 
 ---
 
-## 🚀 Getting Started
+## 💬 Discussions & Guest Meetings
 
-```bash
-git clone https://github.com/yourusername/deep-rl-course.git
-cd deep-rl-course
-pip install -r requirements.txt
+We had the opportunity to meet and discuss RL topics with many of the leading researchers in the field, including:
+
+- **Richard Sutton**
+- **Michael Littman**
+- **Chris Watkins**
+- **Peter Stone**
+- **Jakob Foerster**
+- **Nan Jiang**
+- **Benjamin Eysenbach**
+- **Ian Osband**
+- **Jeff Clune**
+- **Peter Dayan**
+- **Ida Momennejad**
+- **Abhishek Gupta**
+- **Benjamin Van Roy**
+- **Wolfram Schultz**
+- **Mark Ho**
+- **Pascal Poupart**
+- **Peter Norvig**
+- **Karl Friston**
+- **Amy Zhang**
+- **Adam White**
+- **Anne Collins**
+- **Luis Serrano**
+- **Martha White**
+- **Christopher Amato**
+- **Marlos C. Machado**
+
+---
